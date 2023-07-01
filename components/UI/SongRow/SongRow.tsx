@@ -10,6 +10,7 @@ import { useCollection } from "react-firebase-hooks/firestore"
 import Equalizer from "@/components/UI/Equalizer"
 import LikeSong from "@/components/UI/LikeSong/LikeSong"
 import { PauseIcon, PlayIcon, XMarkIcon } from "@heroicons/react/24/solid"
+import Image from "next/image"
 
 interface SongRowProps {
   song: DocumentData,
@@ -108,7 +109,7 @@ export default function SongRow({ song, index = 0 }: SongRowProps) {
               </button>
               : <span className={`text-sm ${currentTrack?.id === song.id ? "text-green-500" : "text-white"}`}>{index + 1}</span>}
         </div>
-        <img className="h-10 aspect-square object-cover" src={song.data().path.cover} alt="cover" />
+        <Image width={40} height={40} className="object-cover" src={song.data().path.cover} alt="cover" />
         <div className="flex flex-col space-y-1">
           <span className={`${currentTrack?.i === song.id ? "text-green-500" : "text-white"} select-text`}>
             {song.data().metadata.songName}

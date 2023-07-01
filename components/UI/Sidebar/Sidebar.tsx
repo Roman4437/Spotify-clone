@@ -19,6 +19,7 @@ import {
   BookOpenIcon,
   MusicalNoteIcon,
 } from "@heroicons/react/24/outline"
+import Image from "next/image"
 
 export default function Sidebar() {
   const { currentTrack, isPlaying } = useContext(PlayerContext)
@@ -139,10 +140,12 @@ export default function Sidebar() {
                 ? likedSongs && likedSongs.size > 0 && <div
                   onClick={() => push("/collection/tracks")}
                   className={`flex items-center p-2 rounded-md space-x-3 cursor-pointer hover:bg-[#ffffff12] transition ${pathname === "/collection/tracks" ? "bg-[#ffffff12]" : "bg-transparent"}`}>
-                  <img
-                    className="rounded-sm h-12 aspect-square object-cover"
+                  <Image
+                    width={48}
+                    height={48}
+                    className="rounded-sm object-cover"
                     src="/liked-songs-640.png"
-                    alt="Liked_Songs" />
+                    alt="Liked Songs" />
                   <div className="flex flex-col justify-between">
                     <span className="text-green-400">Liked Songs</span>
                     <span className="text-xs text-[#b3b3b3] truncate">Playlist &bull; {data?.user?.name}</span>
@@ -178,8 +181,10 @@ export default function Sidebar() {
                     onClick={() => push(`/song/${song.id}`)}
                     className={`flex p-2 justify-between items-center rounded-md cursor-pointer hover:bg-[#ffffff12] transition ${pathname.includes(song.id) ? "bg-[#ffffff12]" : "bg-transparent"}`}>
                     <div className="flex space-x-3 items-center">
-                      <img
-                        className="rounded-sm h-12 aspect-square object-cover"
+                      <Image
+                        width={48}
+                        height={48}
+                        className="rounded-sm aspect-square object-cover"
                         src={song.data().path.cover}
                         loading="lazy"
                         alt="cover" />

@@ -12,6 +12,7 @@ import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid"
 import { ClockIcon } from "@heroicons/react/24/outline"
 import LikeSong from "@/components/UI/LikeSong/LikeSong"
 import SongRow from "@/components/UI/SongRow/SongRow"
+import Image from "next/image"
 
 export default function SongPage() {
   const { currentTrack, setCurrentTrack, isPlaying, setIsPlaying, setLoading, setCurrentList } = useContext(PlayerContext)
@@ -43,7 +44,7 @@ export default function SongPage() {
   return (
     <div className="flex flex-col px-6 w-full bg-gradient-to-b from-blue-950 to-[#121214] pt-4">
       <div className="flex space-x-6 h-36 md:h-60 mb-6">
-        <img src={song!.data()!.path.cover} className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
+        <Image fill src={song!.data()!.path.cover} className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
         <div className="flex flex-col justify-end space-y-6 overflow-hidden">
           <span className="text-sm">Single</span>
           <h1 className="text-3xl md:text-7xl md:pb-4 font-extrabold truncate drop-shadow-2xl select-text">

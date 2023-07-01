@@ -10,6 +10,7 @@ import { db } from "@/firebase"
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid"
 import { ClockIcon } from "@heroicons/react/24/outline"
 import SongRow from "@/components/UI/SongRow/SongRow"
+import Image from "next/image"
 
 export default function LikedSongsPage() {
   const { currentTrack, setCurrentTrack, currentList, setCurrentList, isPlaying, setIsPlaying, setLoading } = useContext(PlayerContext)
@@ -45,12 +46,12 @@ export default function LikedSongsPage() {
   return (
     <div className="flex flex-col px-6 w-full bg-gradient-to-b from-blue-950 to-[#121214] pt-4">
       <div className="flex space-x-6 h-36 md:h-60 mb-6">
-        <img src="/liked-songs-640.png" className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
+        <Image fill src="/liked-songs-640.png" className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
         <div className="flex flex-col justify-end space-y-6 overflow-hidden">
           <span className="text-sm">Playlist</span>
           <h1 className="text-3xl md:text-7xl md:pb-4 font-extrabold drop-shadow-2xl line-clamp-1">Liked songs</h1>
           <div className="flex space-x-2 items-center">
-            <img className="h-6 rounded-full" src={data?.user?.image!} alt="pfp" />
+            <Image width={24} height={24} className="h-6 rounded-full" src={data?.user?.image!} alt="pfp" />
             <h2 className="text-xs md:text-base md:font-bold">{data?.user?.name}</h2>
             <div>&bull;</div>
             <span>{likedSongs?.size} songs</span>

@@ -8,6 +8,7 @@ import { HistoryContext } from "@/components/Providers/HistoryProvider/HistoryPr
 import { usePathname, useRouter } from "next/navigation"
 
 import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import Image from "next/image"
 
 export default function Header() {
   const [currentPage, setCurrentPage] = useState(0)
@@ -79,7 +80,7 @@ export default function Header() {
       </div>
       <div className="flex bg-black/60 h-8 w-8 rounded-full items-center justify-center font-bold">
         <button onClick={() => signOut()} className="hover:opacity-50">
-          <img className="h-7 w-7 rounded-full" src={data?.user?.image!} />
+          <Image width={28} height={28} className="rounded-full" src={data?.user?.image!} alt="pfp" />
         </button>
       </div>
     </div >

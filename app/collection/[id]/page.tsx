@@ -12,6 +12,7 @@ import { db } from "@/firebase"
 import { PauseIcon, PlayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { ClockIcon, MusicalNoteIcon } from "@heroicons/react/24/outline"
 import SongRow from "@/components/UI/SongRow/SongRow"
+import Image from "next/image"
 
 
 export default function PlaylistPage() {
@@ -67,7 +68,7 @@ export default function PlaylistPage() {
           <span className="text-sm">Playlist</span>
           <h1 className="text-3xl md:text-7xl md:pb-4 font-extrabold drop-shadow-2xl line-clamp-1">{pathname.split('/').pop()?.replace("%20", " ")}</h1>
           <div className="flex space-x-2 items-center">
-            <img className="h-6 rounded-full" src={data?.user?.image!} alt="pfp" />
+            <Image width={24} height={24} className="rounded-full" src={data?.user?.image!} alt="pfp" />
             <h2 className="text-xs md:text-base md:font-bold">{data?.user?.name}</h2>
             <div>&bull;</div>
             <span>{playlist?.size} songs</span>

@@ -6,6 +6,7 @@ import useHistory from "@/hooks/useHistory"
 import { PlayIcon } from "@heroicons/react/24/solid"
 import { collection, doc } from "firebase/firestore"
 import { useSession } from "next-auth/react"
+import Image from "next/image"
 import { useContext, useEffect } from "react"
 import { useCollection, useDocument } from "react-firebase-hooks/firestore"
 
@@ -33,7 +34,7 @@ export default function Home() {
           ? <>
             <div className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
               <button onClick={() => push("/collection/tracks")} className="flex items-center h-full space-x-4">
-                <img src="/liked-songs-640.png" className="h-full aspect-square rounded-l-sm" />
+                <Image fill src="/liked-songs-640.png" className="h-full aspect-square rounded-l-sm" alt="liked songs" />
                 <span className="truncate">Liked Songs</span>
               </button>
               <button
@@ -46,7 +47,7 @@ export default function Home() {
               key={song.id}
               className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
               <button onClick={() => push("/collection/tracks")} className="flex items-center h-full space-x-4">
-                <img src={song.data().path.cover} className="h-full aspect-square rounded-l-sm" />
+                <Image fill src={song.data().path.cover} className="h-full aspect-square rounded-l-sm" alt={song.data().metadata.songName} />
                 <span className="truncate">{song.data().metadata.songName}</span>
               </button>
               <button
@@ -68,7 +69,7 @@ export default function Home() {
             onClick={() => push(`/song/${song.id}`)}
             className="flex group flex-col rounded-md bg-[#171717] p-4">
             <div className="relative">
-              <img src={song.path.cover} className="w-full aspect-square self-center rounded-md" loading="lazy" />
+              <Image fill src={song.path.cover} className="w-full aspect-square self-center rounded-md" alt={song.metadata.songName} />
               <div className="opacity-0 group-hover:opacity-100 transition ease-in-out absolute bottom-2 right-2 play_button">
                 <button>
                   <PlayIcon className="h-8 text-black" />
