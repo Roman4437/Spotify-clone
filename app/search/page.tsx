@@ -5,7 +5,6 @@ import { db } from "@/firebase"
 import useHistory from "@/hooks/useHistory"
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid"
 import { DocumentData, QueryDocumentSnapshot, collection } from "firebase/firestore"
-import Image from "next/image"
 import { useContext, useEffect } from "react"
 import { useCollection } from "react-firebase-hooks/firestore"
 
@@ -37,7 +36,7 @@ export default function SearchPage() {
           onClick={() => push(`/song/${song.id}`)}
           className="group flex flex-col rounded-md bg-[#171717] p-4">
           <div className="relative">
-            <Image fill src={song.data().path.cover} className="w-full aspect-square self-center rounded-md" alt="cover" />
+            <img src={song.data().path.cover} className="w-full aspect-square self-center rounded-md" alt="cover" />
             {currentTrack?.id !== song.id
               ? <button
                 className="opacity-0 group-hover:opacity-100 transition ease-in-out absolute bottom-2 right-2 play_button"

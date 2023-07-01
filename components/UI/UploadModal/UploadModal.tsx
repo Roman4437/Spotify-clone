@@ -8,7 +8,6 @@ import { db } from "@/firebase"
 
 import { ArrowUpTrayIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { MusicalNoteIcon } from "@heroicons/react/24/outline"
-import Image from "next/image"
 
 interface UploadModal {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -165,7 +164,7 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
               ? <div className="flex bg-[#302944]/60 rounded-sm items-center justify-between h-20 pr-4 space-x-4">
                 <div className="flex truncate h-full items-center">
                   {image
-                    ? <Image fill className="h-full rounded-l-sm aspect-square object-cover" src={image} alt="cover" />
+                    ? <img className="h-full rounded-l-sm aspect-square object-cover" src={image} alt="cover" />
                     : <span className="pl-4">Cover</span>}
                 </div>
                 <button

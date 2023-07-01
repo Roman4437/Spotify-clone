@@ -46,7 +46,7 @@ export default function LikedSongsPage() {
   return (
     <div className="flex flex-col px-6 w-full bg-gradient-to-b from-blue-950 to-[#121214] pt-4">
       <div className="flex space-x-6 h-36 md:h-60 mb-6">
-        <Image fill src="/liked-songs-640.png" className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
+        <img src="/liked-songs-640.png" className="h-full aspect-square object-cover drop-shadow-2xl" alt="cover" />
         <div className="flex flex-col justify-end space-y-6 overflow-hidden">
           <span className="text-sm">Playlist</span>
           <h1 className="text-3xl md:text-7xl md:pb-4 font-extrabold drop-shadow-2xl line-clamp-1">Liked songs</h1>
