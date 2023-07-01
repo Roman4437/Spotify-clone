@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .set_active {
+    @apply after:absolute after:h-1 after:w-1 after:bg-green-500 after:-bottom-1 after:left-2 after:rounded-full;
+  }
+  .scrollbar-custom {
+    @apply overflow-y-auto scrollbar-none md:scrollbar scrollbar-w-[10px] scrollbar-thumb-white/40 hover:scrollbar-thumb-white/50;
+    scrollbar-gutter: stable
+  }
+  .play_button {
+    @apply flex items-center justify-center h-14 w-14 rounded-full bg-green-500 hover:scale-105
+  }
+}
