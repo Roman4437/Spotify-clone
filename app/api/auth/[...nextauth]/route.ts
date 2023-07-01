@@ -1,5 +1,5 @@
 import { db } from "@/firebase"
-import { addDoc, collection, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore"
+import { doc, setDoc } from "firebase/firestore"
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
