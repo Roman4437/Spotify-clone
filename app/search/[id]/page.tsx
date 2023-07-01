@@ -36,6 +36,7 @@ export default function QueryPage() {
         .filter(song => song.data().metadata.songName.toLowerCase().includes(pathname.split("/").pop()?.toLowerCase())
           || song.data().metadata.artistName.toLowerCase().includes(pathname.split("/").pop()?.toLowerCase()))
         .map(song => <button
+          key={song.id}
           onClick={() => push(`/song/${song.id}`)}
           className="group flex flex-col rounded-md bg-[#171717] p-4">
           <div className="relative">

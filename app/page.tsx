@@ -42,7 +42,9 @@ export default function Home() {
                 <PlayIcon className="h-8 text-black" />
               </button>
             </div>
-            {songs?.docs.slice(0, 3).map(song => <div className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
+            {songs?.docs.slice(0, 3).map(song => <div
+              key={song.id}
+              className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
               <button onClick={() => push("/collection/tracks")} className="flex items-center h-full space-x-4">
                 <img src={song.data().path.cover} className="h-full aspect-square rounded-l-sm" />
                 <span className="truncate">{song.data().metadata.songName}</span>
@@ -54,7 +56,7 @@ export default function Home() {
               </button>
             </div>)}
           </>
-          : Array.from({ length: 4 }, () => <div className="bg-[#383838]/60 rounded-sm h-20" />)}
+          : Array.from({ length: 4 }, () => <div key={crypto.randomUUID()} className="bg-[#383838]/60 rounded-sm h-20" />)}
       </div>
       <h2 className="text-2xl font-bold mb-6">
         Recently played
@@ -62,6 +64,7 @@ export default function Home() {
       <div className="grid grid-cols-3 md:grid-cols-5 gap-6 pb-4">
         {songs
           ? recentlyPlayed?.data()?.recentlyPlayed?.map((song: Song) => <button
+            key={song.id}
             onClick={() => push(`/song/${song.id}`)}
             className="flex group flex-col rounded-md bg-[#171717] p-4">
             <div className="relative">
@@ -75,7 +78,7 @@ export default function Home() {
             <span className="mt-2 truncate">{song.metadata.songName}</span>
             <span className="text-sm text-[#b3b3b3] truncate">{song.metadata.artistName}</span>
           </button>)
-          : Array.from({ length: 5 }, () => <div className="flex flex-col rounded-md bg-[#171717] p-4">
+          : Array.from({ length: 5 }, () => <div key={crypto.randomUUID()} className="flex flex-col rounded-md bg-[#171717] p-4">
             <div className="bg-[#383838] w-full aspect-square self-center rounded-md" />
             <div className="bg-[#383838] w-full mt-2 truncate h-4 rounded-md" />
             <div className="bg-[#383838] w-4/5 text-sm mt-2 truncate h-4 rounded-md" />

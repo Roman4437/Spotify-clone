@@ -32,6 +32,7 @@ export default function SearchPage() {
     <div className="grid grid-cols-3 md:grid-cols-5 p-6 gap-6 pb-4">
       {songs
         ? songs.docs.map(song => <button
+          key={song.id}
           onClick={() => push(`/song/${song.id}`)}
           className="group flex flex-col rounded-md bg-[#171717] p-4">
           <div className="relative">
@@ -57,7 +58,7 @@ export default function SearchPage() {
           <span className="mt-2 truncate">{song.data().metadata.songName}</span>
           <span className="text-sm text-[#b3b3b3] truncate">{song.data().metadata.artistName}</span>
         </button>)
-        : Array.from({ length: 10 }, () => <div className="flex flex-col rounded-md bg-[#171717] p-4">
+        : Array.from({ length: 10 }, () => <div key={crypto.randomUUID()} className="flex flex-col rounded-md bg-[#171717] p-4">
           <div className="bg-[#383838] w-full aspect-square self-center rounded-md" />
           <div className="bg-[#383838] w-full mt-2 truncate h-4 rounded-md" />
           <div className="bg-[#383838] w-4/5 text-sm mt-2 truncate h-4 rounded-md" />
