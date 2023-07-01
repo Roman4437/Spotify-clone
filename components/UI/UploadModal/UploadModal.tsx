@@ -4,10 +4,11 @@ import { useSession } from "next-auth/react"
 import toast from "react-hot-toast"
 import useUpload from "@/hooks/useUpload"
 import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore"
-import { db } from "@/firebase"
+import { db, storage } from "@/firebase"
 
 import { ArrowUpTrayIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { MusicalNoteIcon } from "@heroicons/react/24/outline"
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 
 interface UploadModal {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -42,68 +43,45 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
     buttonRef.current!.disabled = true
     const notification = toast.loading("Uploading...")
 
-    const body = new FormData()
-    body.append("audio", audio as File)
-    body.append("cover", cover as File)
-    body.append("artist", artist)
-    body.append("song", song)
+    const baseName = crypto.randomUUID()
+    const coverName = `${artist} - ${song} [${baseName}].${cover?.name.split(".").pop()}`
+    const audioName = `${artist} - ${song} [${baseName}].${audio?.name.split(".").pop()}`
 
     try {
-      const req = await fetch("/api/upload", {
-        method: "POST",
-        body: body
-      })
 
-      const res: UploadResponse = await req.json()
+      const coverRef = ref(storage, `cover/${coverName}`)
+      const audioRef = ref(storage, `audio/${audioName}`)
+      await uploadBytes(coverRef, cover!)
+      await uploadBytes(audioRef, audio!)
 
-      if (res.success) {
-        const id = await addDoc(
-          collection(db, "songs"),
-          {
-            metadata: {
-              songName: song,
-              artistName: artist,
-            },
-            path: {
-              audio: `/songs/${res.message.audio}`,
-              cover: `/songs/${res.message.cover}`
-            },
-            uploadedBy: data?.user?.email,
-            uploadedAt: serverTimestamp(),
-            duration: duration
-          })
-
-        setDoc(
-          doc(db, "users", data?.user?.email!, "uploadedSongs", id.id),
-          {
-            metadata: {
-              songName: song,
-              artistName: artist,
-            },
-            path: {
-              audio: `/songs/${res.message.audio}`,
-              cover: `/songs/${res.message.cover}`
-            },
-            uploadedBy: data?.user?.email,
-            uploadedAt: serverTimestamp(),
-            duration: duration
-          }
-        )
-
-        setArtist("")
-        setSong("")
-        reset()
-
-        audioInputRef.current!.value = ""
-        coverInputRef.current!.value = ""
-
-        toast.success("Successfully uploaded!", { id: notification })
-        setIsModalOpen(false)
+      const body = {
+        metadata: {
+          songName: song,
+          artistName: artist
+        },
+        path: {
+          audio: await getDownloadURL(ref(storage, `audio/${audioName}`)),
+          cover: await getDownloadURL(ref(storage, `cover/${coverName}`))
+        },
+        uploadedBy: data?.user?.email,
+        uploadedAt: serverTimestamp(),
+        duration: duration
       }
 
-      if (!res.success) {
-        toast.error("Something went wrong!", { id: notification })
-      }
+      const id = await addDoc(collection(db, "songs"), body)
+
+      setDoc(doc(db, "users", data?.user?.email!, "uploadedSongs", id.id), body)
+
+      setArtist("")
+      setSong("")
+      reset()
+
+      audioInputRef.current!.value = ""
+      coverInputRef.current!.value = ""
+
+      toast.success("Successfully uploaded!", { id: notification })
+      setIsModalOpen(false)
+
     } catch (error) {
       console.error(error)
       toast.error("Something went wrong!", { id: notification })
@@ -214,7 +192,7 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
                 <div className="relative flex-1 bg-white h-1 rounded-full">
                   <div
                     className="absolute top-0 left-0 h-full bg-green-500 rounded-full"
-                    style={{ width: `${mandatoryFields * 25}%` }} />
+                    style={{ width: `${mandatoryFields * 25} % ` }} />
                 </div>
                 <button
                   className="flex space-x-3 rounded-sm p-2 text-white bg-green-500 hover:bg-green-400 transition-colors ease-in-out disabled:cursor-not-allowed disabled:bg-gray-400"
