@@ -86,7 +86,7 @@ export default function SongRow({ song, index = 0 }: SongRowProps) {
   }
 
   function removeFromPlaylist() {
-    deleteDoc(doc(db, "users", data?.user?.email!, "playlists", pathname.split('/').pop()!, "songs", song.id))
+    deleteDoc(doc(db, "users", data?.user?.email!, "playlists", pathname.split('/').pop()?.replace("%20", " ")!, "songs", song.id))
   }
 
   return (
@@ -131,7 +131,7 @@ export default function SongRow({ song, index = 0 }: SongRowProps) {
             {playlists?.docs.map(list => <button
               key={list.id}
               onClick={() => addToPlaylist(list.ref)}
-              className="truncate text-sm">+ {list.id.replace("_", " ")}</button>)}
+              className="truncate text-sm">+ {list.id.replace("%20", " ")}</button>)}
           </div>}
         </div>}
       </div>

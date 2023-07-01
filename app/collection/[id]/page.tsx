@@ -20,7 +20,7 @@ export default function PlaylistPage() {
   const { push } = useHistory()
   const { data } = useSession()
   const pathname = usePathname()
-  const [playlist, loading] = useCollection(collection(db, "users", data?.user?.email!, "playlists", `${pathname.split('/').pop()}`, "songs"))
+  const [playlist, loading] = useCollection(collection(db, "users", data?.user?.email!, "playlists", pathname.split('/').pop()?.replace("%20", " ")!, "songs"))
 
   useEffect(() => {
     if (loading)
@@ -45,7 +45,7 @@ export default function PlaylistPage() {
   }
 
   function deletePlaylist() {
-    deleteDoc(doc(db, "users", data?.user?.email!, "playlists", `${pathname.split('/').pop()?.replace("%20", " ")}`))
+    deleteDoc(doc(db, "users", data?.user?.email!, "playlists", pathname.split('/').pop()?.replace("%20", " ")!))
     push("/")
   }
 
