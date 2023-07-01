@@ -14,14 +14,6 @@ interface UploadModal {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-interface UploadResponse {
-  message: {
-    audio: string,
-    cover: string
-  },
-  success: boolean
-}
-
 export default function UploadModal({ setIsModalOpen }: UploadModal) {
   const { image, audio, cover, duration, handleAudioSelect, handleCoverSelect, reset } = useUpload()
   const [artist, setArtist] = useState("")
