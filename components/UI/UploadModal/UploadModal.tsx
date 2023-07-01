@@ -100,6 +100,10 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
         toast.success("Successfully uploaded!", { id: notification })
         setIsModalOpen(false)
       }
+
+      if (!res.success) {
+        toast.error("Something went wrong!", { id: notification })
+      }
     } catch (error) {
       console.error(error)
       toast.error("Something went wrong!", { id: notification })
