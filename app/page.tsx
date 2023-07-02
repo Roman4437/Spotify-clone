@@ -2,16 +2,18 @@
 
 import { PlayerContext } from "@/components/Providers/PlayerProvider/PlayerProvider"
 import { db } from "@/firebase"
-import useHistory from "@/hooks/useHistory"
-import { PlayIcon } from "@heroicons/react/24/solid"
 import { collection, doc } from "firebase/firestore"
 import { useSession } from "next-auth/react"
 import { useContext, useEffect } from "react"
 import { useCollection, useDocument } from "react-firebase-hooks/firestore"
 
+import LikedRowSmall from "@/components/UI/SongCard/LikedRowSmall"
+import RecentlyPlayed from "@/components/UI/SongCard/RecentlyPlayed"
+import SongCarMediumLoading from "@/components/UI/SongCard/SongCarMediumLoading"
+import SongRowSmall from "@/components/UI/SongCard/SongRowSmall"
+
 export default function Home() {
   const { setLoading } = useContext(PlayerContext)
-  const { push } = useHistory()
   const { data } = useSession()
   const [songs, loading] = useCollection(collection(db, "songs"))
   const [recentlyPlayed] = useDocument(doc(db, "users", data?.user?.email!))
@@ -31,30 +33,8 @@ export default function Home() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
         {songs
           ? <>
-            <div className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
-              <button onClick={() => push("/collection/tracks")} className="flex items-center h-full space-x-4">
-                <img src="/liked-songs-640.png" className="h-full aspect-square object-cover rounded-l-sm" alt="liked songs" />
-                <span className="truncate">Liked Songs</span>
-              </button>
-              <button
-                className="opacity-0 transition ease-in-out group-hover:opacity-100 play_button mr-4"
-                onClick={() => push("/collection/tracks")}>
-                <PlayIcon className="h-8 text-black" />
-              </button>
-            </div>
-            {songs?.docs.slice(songs.size - 3, songs.size).map(song => <div
-              key={song.id}
-              className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
-              <button onClick={() => push("/collection/tracks")} className="relative flex items-center h-full space-x-4">
-                <img src={song.data().path.cover} className="h-full aspect-square object-cover rounded-l-sm" alt={song.data().metadata.songName} />
-                <span className="truncate">{song.data().metadata.songName}</span>
-              </button>
-              <button
-                className="opacity-0 transition ease-in-out group-hover:opacity-100 play_button mr-4"
-                onClick={() => push(`/song/${song.id}`)}>
-                <PlayIcon className="h-8 text-black" />
-              </button>
-            </div>)}
+            <LikedRowSmall />
+            {songs?.docs.slice(songs.size - 3, songs.size).map(song => <SongRowSmall key={song.id} song={song} />)}
           </>
           : Array.from({ length: 4 }, () => <div key={crypto.randomUUID()} className="bg-[#383838]/60 rounded-sm h-20" />)}
       </div>
@@ -63,26 +43,8 @@ export default function Home() {
       </h2>
       <div className="grid grid-cols-3 md:grid-cols-5 gap-6 pb-4">
         {songs
-          ? recentlyPlayed?.data()?.recentlyPlayed?.map((song: Song) => <button
-            key={song.id}
-            onClick={() => push(`/song/${song.id}`)}
-            className="flex group flex-col rounded-md bg-[#171717] p-4">
-            <div className="relative">
-              <img src={song.path.cover} className="w-full aspect-square self-center rounded-md" alt={song.metadata.songName} />
-              <div className="opacity-0 group-hover:opacity-100 transition ease-in-out absolute bottom-2 right-2 play_button">
-                <button>
-                  <PlayIcon className="h-8 text-black" />
-                </button>
-              </div>
-            </div>
-            <span className="mt-2 truncate">{song.metadata.songName}</span>
-            <span className="text-sm text-[#b3b3b3] truncate">{song.metadata.artistName}</span>
-          </button>)
-          : Array.from({ length: 5 }, () => <div key={crypto.randomUUID()} className="flex flex-col rounded-md bg-[#171717] p-4">
-            <div className="bg-[#383838] w-full aspect-square self-center rounded-md" />
-            <div className="bg-[#383838] w-full mt-2 truncate h-4 rounded-md" />
-            <div className="bg-[#383838] w-4/5 text-sm mt-2 truncate h-4 rounded-md" />
-          </div>)}
+          ? recentlyPlayed?.data()?.recentlyPlayed?.reverse().map((song: Song) => <RecentlyPlayed key={song.id} song={song} />)
+          : Array.from({ length: 5 }, () => <SongCarMediumLoading key={crypto.randomUUID()} />)}
       </div>
     </div>
   )

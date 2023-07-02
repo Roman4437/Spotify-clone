@@ -11,6 +11,9 @@
     scrollbar-gutter: stable
   }
   .play_button {
-    @apply flex items-center justify-center h-14 w-14 rounded-full bg-green-500 hover:scale-105
+    @apply flex items-center justify-center h-14 w-14 rounded-full bg-green-500 disabled:cursor-not-allowed disabled:bg-blue-300 enabled:hover:scale-105
+  }
+  .play_button_visible_on_hover {
+    @apply opacity-0 group-hover:opacity-100 transition ease-in-out bottom-2 right-2 play_button
   }
 }
