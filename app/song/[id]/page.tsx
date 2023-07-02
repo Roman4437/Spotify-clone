@@ -32,7 +32,7 @@ export default function SongPage() {
   return (
     <div className="flex flex-col px-6 w-full bg-gradient-to-b from-blue-950 to-[#121214] pt-4">
       <SongPageHeader song={song!} />
-      <div className={`flex flex-col -mx-6 bg-gradient-to-b from-blue-950 to-[#121214] h-48 text-[#b3b3b3]`}>
+      <div className="flex flex-col -mx-6 bg-gradient-to-b from-blue-950 to-[#121214] h-48 text-[#b3b3b3]">
         <div className="flex space-x-4 p-6">
           <SongPlayButton song={song as QueryDocumentSnapshot<DocumentData>} type="visible" />
           <LikeSong className="h-9" song={song!} />

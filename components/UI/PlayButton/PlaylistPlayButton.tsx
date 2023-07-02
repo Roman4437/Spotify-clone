@@ -16,8 +16,13 @@ export default function PlaylistPlayButton({ songs, type }: PlaylistPlayButtonPr
 
     if (!isCurrentSongInPlaylist)
       setCurrentTrack(songs?.docs[0])
-    if (!isActiveList && !isCurrentSongInPlaylist)
+    if (!isActiveList && !isCurrentSongInPlaylist) {
+      const path = songs.docs[0].ref.parent.path
+      const currentList = JSON.stringify(path)
+
+      localStorage.setItem("currentList", currentList)
       setCurrentList(songs)
+    }
 
     setIsPlaying(true)
   }
@@ -36,13 +41,13 @@ export default function PlaylistPlayButton({ songs, type }: PlaylistPlayButtonPr
       {isPlaying && isCurrentSongInPlaylist
         ? <button
           onClick={handlePause}
-          className={`${type === "visible" ? "play_button" : "play_button_visible_on_hover mr-4"}`}
+          className={`${type === "visible" ? "play_button" : "play_button_visible_on_hover"}`}
           disabled={songs?.size === 0}>
           <PauseIcon className="h-8 text-black" />
         </button>
         : <button
           onClick={handlePlay}
-          className={`${type === "visible" ? "play_button" : "play_button_visible_on_hover mr-4"}`}
+          className={`${type === "visible" ? "play_button" : "play_button_visible_on_hover"}`}
           disabled={songs?.size === 0}>
           <PlayIcon className="h-8 text-black" />
         </button>}

@@ -1,15 +1,15 @@
 'use client'
 
 import { useContext, useEffect, useRef, useState } from "react"
+import { doc, getDoc, setDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+import { useSession } from "next-auth/react"
 import usePlayerControls from "@/hooks/usePlayerControls"
 import { PlayerContext } from "@/components/Providers/PlayerProvider/PlayerProvider"
 
 import VolumeProgressBar from "./VolumeProgressBar/VolumeProgressBar"
 import PlayerProgressBar from "./PlayerProgressBar/PlayerProgressBar"
 import SongMetadata from "./SongMetadata/SongMetadata"
-import { doc, getDoc, setDoc } from "firebase/firestore"
-import { db } from "@/firebase"
-import { useSession } from "next-auth/react"
 
 export default function Footer() {
   const { currentTrack, setCurrentTrack, isPlaying, setIsPlaying, currentList } = useContext(PlayerContext)
@@ -62,7 +62,6 @@ export default function Footer() {
 
   useEffect(() => {
     if (currentList) {
-      localStorage.setItem("currentList", JSON.stringify((currentList as any).query.path))
       shuffleList()
     }
   }, [currentList])
