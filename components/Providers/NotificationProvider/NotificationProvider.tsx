@@ -13,5 +13,5 @@ export default function NotificationProvider() {
       icon: null
     }}
     position="bottom-center"
-    containerStyle={{ bottom: "120px" }} />
+    containerStyle={{ bottom: "80px" }} />
 }

@@ -184,7 +184,7 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
                 <div className="relative flex-1 bg-white h-1 rounded-full">
                   <div
                     className="absolute top-0 left-0 h-full bg-green-500 rounded-full"
-                    style={{ width: `${mandatoryFields * 25} % ` }} />
+                    style={{ width: `${mandatoryFields * 25}% ` }} />
                 </div>
                 <button
                   className="flex space-x-3 rounded-sm p-2 text-white bg-green-500 hover:bg-green-400 transition-colors ease-in-out disabled:cursor-not-allowed disabled:bg-gray-400"

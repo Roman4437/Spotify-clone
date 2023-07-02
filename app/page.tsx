@@ -42,7 +42,7 @@ export default function Home() {
                 <PlayIcon className="h-8 text-black" />
               </button>
             </div>
-            {songs?.docs.slice(0, 3).map(song => <div
+            {songs?.docs.slice(songs.size - 3, songs.size).map(song => <div
               key={song.id}
               className="flex group bg-[#302944]/60 rounded-sm items-center justify-between h-20">
               <button onClick={() => push("/collection/tracks")} className="relative flex items-center h-full space-x-4">
