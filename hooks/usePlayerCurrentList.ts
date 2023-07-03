@@ -20,9 +20,7 @@ export default function usePlayerCurrentList() {
       localStorage.setItem("currentList", path)
     }
 
-    const isInSongPage = pathname.includes("collection")
-
-    if (!isInSongPage) {
+    if (currentList === undefined) {
       localStorage.setItem("currentList", "undefined")
     }
 
