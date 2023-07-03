@@ -1,9 +1,10 @@
 'use client'
 
+import usePlayer from "@/hooks/usePlayer"
+
 import VolumeProgressBar from "./VolumeProgressBar/VolumeProgressBar"
 import PlayerProgressBar from "./PlayerProgressBar/PlayerProgressBar"
 import SongMetadata from "./SongMetadata/SongMetadata"
-import usePlayer from "@/hooks/usePlayer"
 
 export default function Footer() {
   const { audioRef, curretState, controls, audioVolume, setAudioVolume, isLoopEnable, methods } = usePlayer()

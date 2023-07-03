@@ -5,10 +5,11 @@ import { useEffect, useRef, useState } from "react"
 interface AddToPlaylistProps {
   song: DocumentData,
   playlists: QuerySnapshot<DocumentData>
+  isSelectOpen: boolean,
+  setIsSelectOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function AddToPlaylist({ song, playlists }: AddToPlaylistProps) {
-  const [isSelectOpen, setIsSelectOpen] = useState(false)
+export default function AddToPlaylist({ song, playlists, isSelectOpen, setIsSelectOpen }: AddToPlaylistProps) {
   const pathname = usePathname()
 
   const divRef = useRef<HTMLDivElement>(null)
@@ -26,10 +27,9 @@ export default function AddToPlaylist({ song, playlists }: AddToPlaylistProps) {
 
   function addToPlaylist(ref: DocumentReference<DocumentData>) {
     setDoc(
-      doc(ref, "songs", song.id),
-      {
-        ...song.data()
-      })
+      doc(ref, "songs", song.id), {
+      ...song.data()
+    })
     setIsSelectOpen(false)
   }
 

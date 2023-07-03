@@ -20,14 +20,16 @@ export default function SmallPlayButton({ song, index, isHover }: SmallPlayButto
   const { data } = useSession()
 
   async function handlePlay() {
-    if (isCurrentSong)
+    if (isCurrentSong) {
       return setIsPlaying(true)
+    }
 
     setCurrentTrack(song)
     setIsPlaying(true)
 
     try {
       if (isInSongPage) {
+        localStorage.setItem("currentList", "undefined")
         setCurrentList(undefined)
       }
 

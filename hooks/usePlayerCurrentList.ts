@@ -1,10 +1,8 @@
 import { PlayerContext } from "@/components/Providers/PlayerProvider/PlayerProvider"
-import { usePathname } from "next/navigation"
 import { useContext, useEffect, useRef } from "react"
 
 export default function usePlayerCurrentList() {
   const { currentTrack, currentList } = useContext(PlayerContext)
-  const pathname = usePathname()
 
   const shuffledList = useRef<number[]>([])
 
@@ -18,10 +16,6 @@ export default function usePlayerCurrentList() {
     if (currentList !== undefined) {
       const path = JSON.stringify(currentList.docs[0].ref.parent.path)
       localStorage.setItem("currentList", path)
-    }
-
-    if (currentList === undefined) {
-      localStorage.setItem("currentList", "undefined")
     }
 
     if (currentList) {

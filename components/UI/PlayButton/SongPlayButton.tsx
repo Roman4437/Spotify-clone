@@ -1,6 +1,7 @@
 import { PlayerContext } from "@/components/Providers/PlayerProvider/PlayerProvider"
 import { PauseIcon, PlayIcon } from "@heroicons/react/24/solid"
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import { usePathname } from "next/navigation"
 import { useContext } from "react"
 
 interface SongPlayButtonProps {
@@ -10,11 +11,13 @@ interface SongPlayButtonProps {
 
 export default function SongPlayButton({ song, type }: SongPlayButtonProps) {
   const { currentTrack, setCurrentTrack, isPlaying, setIsPlaying, currentList, setCurrentList } = useContext(PlayerContext)
+  const pathname = usePathname()
 
   function handlePlay(event: React.MouseEvent<HTMLButtonElement>, song: QueryDocumentSnapshot<DocumentData>) {
     event.stopPropagation()
 
-    if (!isInActiveList) {
+    if (!isInActiveList && !isCurrentSong) {
+      localStorage.setItem("currentList", "undefined")
       setCurrentList(undefined)
     }
 
@@ -28,7 +31,8 @@ export default function SongPlayButton({ song, type }: SongPlayButtonProps) {
     setIsPlaying(false)
   }
 
-  const isInActiveList = currentList?.docs.find(s => s.id === song.id)
+  const isInActiveList = pathname.includes("collection")
+  const isCurrentSong = song.id === currentTrack?.id
 
   return (
     <>
