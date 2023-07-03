@@ -43,7 +43,7 @@ export default function SongRowSmall({ song }: SongRowSmallProps) {
           alt={song.data().metadata.songName} />
         <span className="truncate">{song.data().metadata.songName}</span>
       </div>
-      <div className="mr-4">
+      <div className="hidden xl:block mr-4">
         <SongPlayButton song={song} type="hover" />
       </div>
     </div>

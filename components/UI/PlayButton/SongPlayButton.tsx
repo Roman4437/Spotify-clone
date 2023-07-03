@@ -15,7 +15,6 @@ export default function SongPlayButton({ song, type }: SongPlayButtonProps) {
     event.stopPropagation()
 
     if (!isInActiveList) {
-      localStorage.setItem("currentList", "undefined")
       setCurrentList(undefined)
     }
 

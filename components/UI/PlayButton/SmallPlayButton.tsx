@@ -28,7 +28,6 @@ export default function SmallPlayButton({ song, index, isHover }: SmallPlayButto
 
     try {
       if (isInSongPage) {
-        localStorage.setItem("currentList", "undefined")
         setCurrentList(undefined)
       }
 

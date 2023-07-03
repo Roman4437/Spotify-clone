@@ -14,13 +14,11 @@ export default function PlaylistPlayButton({ songs, type }: PlaylistPlayButtonPr
   function handlePlay(event: React.MouseEvent<HTMLButtonElement>) {
     event.stopPropagation()
 
-    if (!isCurrentSongInPlaylist)
+    if (!isCurrentSongInPlaylist) {
       setCurrentTrack(songs?.docs[0])
-    if (!isActiveList && !isCurrentSongInPlaylist) {
-      const path = songs.docs[0].ref.parent.path
-      const currentList = JSON.stringify(path)
+    }
 
-      localStorage.setItem("currentList", currentList)
+    if (!isActiveList && !isCurrentSongInPlaylist) {
       setCurrentList(songs)
     }
 

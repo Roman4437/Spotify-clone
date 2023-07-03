@@ -22,7 +22,7 @@ export default function LikedRowSmall() {
           alt="liked songs" />
         <span className="truncate">Liked Songs</span>
       </div>
-      <div className="mr-4">
+      <div className="hidden xl:block  mr-4">
         <PlaylistPlayButton songs={likedSongs!} type="hover" />
       </div>
     </div>

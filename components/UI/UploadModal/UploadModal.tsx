@@ -6,9 +6,13 @@ import useUpload from "@/hooks/useUpload"
 import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { db, storage } from "@/firebase"
 
-import { ArrowUpTrayIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/24/solid"
-import { MusicalNoteIcon } from "@heroicons/react/24/outline"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
+import SongNameInput from "./SongNameInput"
+import ArtistNameInput from "./ArtistNameInput"
+import CoverInput from "./CoverInput"
+import AudioInput from "./AudioInput"
+import ProgressBar from "./ProgressBar"
+import ModalHeader from "./ModalHeader"
 
 interface UploadModal {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -93,111 +97,30 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
       <div className="relative flex flex-col w-full md:w-[420px] ">
         <div className="absolute inset-0 h-48 bg-gradient-to-b from-blue-950 to-[#121214]" />
         <div className="flex flex-col py-4 px-6 bg-[#121214]">
-          <div className="z-10 flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">
-              Upload a Song
-            </h1>
-            <button onClick={() => setIsModalOpen(false)}>
-              <XMarkIcon className="h-4 text-neutral-400" />
-            </button>
-          </div>
+          <ModalHeader setIsModalOpen={setIsModalOpen} />
           <form
-            onSubmit={handleSubmit}
-            className="grid z-10 grid-cols-1 gap-6 pb-4 text-[#b3b3b3]">
-            {true
-              ? <div className="flex bg-[#302944]/60 rounded-sm items-center h-20 px-4 space-x-4">
-                <span className="truncate">Song Name</span>
-                <div className="flex flex-1 p-3 items-center rounded-md bg-[#ffffff12]">
-                  <input
-                    className="bg-transparent w-full ml-2 outline-none text-xs font-bold"
-                    placeholder="E.g. Bury the Light"
-                    onChange={e => setSong(e.target.value)}
-                    value={song}
-                    type="text" />
-                </div>
-              </div>
-              : <div className="flex h-20 bg-[rgb(40,40,40)] px-4 items-center justify-end" >
-                <div className="h-6 w-full md:w-4/5 rounded-full bg-neutral-500" />
-              </div>}
-            {true
-              ? <div className="flex bg-[#302944]/60 rounded-sm items-center h-20 px-4 space-x-4">
-                <span className="truncate">Artist Name</span>
-                <div className="flex flex-1 p-3 items-center rounded-md bg-[#ffffff12]">
-                  <input
-                    className="bg-transparent w-full ml-2 outline-none text-xs font-bold"
-                    placeholder="E.g. Caesy Edward"
-                    onChange={e => setArtist(e.target.value)}
-                    value={artist}
-                    type="text" />
-                </div>
-              </div>
-              : <div className="flex h-20 bg-[rgb(40,40,40)] px-4 items-center justify-end" >
-                <div className="h-6 w-full rounded-full bg-neutral-500" />
-              </div>}
-            {true
-              ? <div className="flex bg-[#302944]/60 rounded-sm items-center justify-between h-20 pr-4 space-x-4">
-                <div className="flex truncate h-full items-center">
-                  {image
-                    ? <img className="h-full rounded-l-sm aspect-square object-cover" src={image} alt="cover" />
-                    : <span className="pl-4">Cover</span>}
-                </div>
-                <button
-                  className="p-2 rounded-full text-white bg-green-500 hover:bg-green-400 transition-colors ease-in-out"
-                  onClick={() => coverInputRef.current?.click()}
-                  type="button">
-                  <PaperClipIcon className="w-5" />
-                </button>
-                <input
-                  ref={coverInputRef}
-                  className="hidden"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleCoverSelect} />
-              </div>
-              : <div className="flex h-20 bg-[rgb(40,40,40)] px-4 items-center justify-end" >
-                <div className="h-6 w-full md:w-4/5 rounded-full bg-neutral-500" />
-              </div>}
-            {true
-              ? <div className="flex bg-[#302944]/60 rounded-sm items-center justify-between h-20 px-4 space-x-4">
-                <div className="flex truncate h-full items-center">
-                  <span className="truncate">{audio ? audio.name : "Audio"}</span>
-                </div>
-                <button
-                  className="p-2 rounded-full text-white bg-green-500 hover:bg-green-400 transition-colors ease-in-out"
-                  onClick={() => audioInputRef.current?.click()}
-                  type="button">
-                  <MusicalNoteIcon className="w-5" />
-                </button>
-                <input
-                  ref={audioInputRef}
-                  className="hidden"
-                  type="file"
-                  accept="audio/*"
-                  onChange={handleAudioSelect} />
-              </div>
-              : <div className="flex h-20 bg-[rgb(40,40,40)] px-4 items-center justify-end" >
-                <div className="h-6 w-full md:w-full rounded-full bg-neutral-500" />
-              </div>}
-            {true
-              ? <div className="flex bg-[#302944]/60 rounded-sm items-center h-20 px-4 space-x-4">
-                <span>{mandatoryFields}/4</span>
-                <div className="relative flex-1 bg-white h-1 rounded-full">
-                  <div
-                    className="absolute top-0 left-0 h-full bg-green-500 rounded-full"
-                    style={{ width: `${mandatoryFields * 25}% ` }} />
-                </div>
-                <button
-                  className="flex space-x-3 rounded-sm p-2 text-white bg-green-500 hover:bg-green-400 transition-colors ease-in-out disabled:cursor-not-allowed disabled:bg-gray-400"
-                  disabled={artist === "" || song === "" || !audio || !cover}
-                  ref={buttonRef}
-                  type="submit">
-                  <span>Upload</span>
-                  <ArrowUpTrayIcon className="w-6" />
-                </button>
-              </div>
-              : <div className="flex h-20 bg-[rgb(40,40,40)] px-4 items-center justify-end" >
-                <div className="h-6 w-full rounded-full bg-neutral-500" />
-              </div>}
+            className="grid z-10 grid-cols-1 gap-6 pb-4 text-[#b3b3b3]"
+            onSubmit={handleSubmit}>
+            <SongNameInput
+              song={song}
+              setSong={setSong} />
+            <ArtistNameInput
+              artist={artist}
+              setArtist={setArtist} />
+            <CoverInput
+              image={image!}
+              handleCoverSelect={handleCoverSelect}
+              CoverRef={coverInputRef} />
+            <AudioInput
+              audio={audio!}
+              handleAudioSelect={handleAudioSelect}
+              AudioRef={audioInputRef} />
+            <ProgressBar
+              mandatoryFields={mandatoryFields}
+              artist={artist}
+              song={song}
+              audio={audio!}
+              cover={cover!} />
           </form>
         </div>
       </div>

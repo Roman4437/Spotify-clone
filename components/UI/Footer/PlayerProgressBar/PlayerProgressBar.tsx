@@ -35,7 +35,7 @@ export default function PlayerProgressBar({ currentTime, jumpToOffset, duration,
     }
   }, [currentTime, currentTrack])
 
-  function offsetChange(event: React.MouseEvent) {
+  function handleOffsetChange(event: React.MouseEvent) {
     event.preventDefault()
     setIsMouseDown(true)
 
@@ -61,7 +61,7 @@ export default function PlayerProgressBar({ currentTime, jumpToOffset, duration,
     document.addEventListener("mouseup", onMouseUp)
   }
 
-  function offsetJump(event: React.MouseEvent) {
+  function handleOffsetJump(event: React.MouseEvent) {
     if (!isMouseUp) {
       const rect = event.currentTarget.getBoundingClientRect()
       const clickX = event.clientX - rect.left
@@ -86,7 +86,7 @@ export default function PlayerProgressBar({ currentTime, jumpToOffset, duration,
           className="flex items-center justify-center"
           onMouseOver={() => setIsHovered(true)}
           onMouseOut={() => setIsHovered(false)}
-          onClick={offsetJump}>
+          onClick={handleOffsetJump}>
           <div className="p-1">
             {currentTrack
               ? <div ref={trackRef} className="relative w-72 md:w-96 h-1 bg-[hsla(0,0%,100%,.3)] rounded-full">
@@ -96,7 +96,7 @@ export default function PlayerProgressBar({ currentTime, jumpToOffset, duration,
                 <div
                   className={`absolute w-3 h-3 -top-1 ${isHovered ? "bg-white" : "bg-transparent"} rounded-full`}
                   style={{ left: `${offsetPercentage * (trackWidth! / 100) - 6}px` }}
-                  onMouseDown={offsetChange} />
+                  onMouseDown={handleOffsetChange} />
               </div>
               : <div ref={trackRef} className="relative w-72 md:w-96 h-1 bg-[rgb(40,40,40)] rounded-full" />}
           </div>
