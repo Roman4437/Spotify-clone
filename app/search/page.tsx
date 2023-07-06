@@ -18,9 +18,11 @@ export default function SearchPage() {
   }, [])
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 p-6 gap-6 pb-4">
-      {songs
-        ? songs.docs.reverse().map(song => <SongCardMedium key={song.id} song={song} />)
-        : Array.from({ length: 10 }, () => <SongCarMediumLoading key={crypto.randomUUID()} />)}
+    <div className="flex flex-col h-1">
+      <div className="grid grid-cols-3 md:grid-cols-5 p-6 gap-6 pb-4">
+        {songs
+          ? songs.docs.reverse().map(song => <SongCardMedium key={song.id} song={song} />)
+          : Array.from({ length: 10 }, () => <SongCarMediumLoading key={crypto.randomUUID()} />)}
+      </div>
     </div>)
 }

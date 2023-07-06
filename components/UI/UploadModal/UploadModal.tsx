@@ -40,13 +40,15 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
     const notification = toast.loading("Uploading...")
 
     const baseName = crypto.randomUUID()
-    const coverName = `${artist} - ${song} [${baseName}].${cover?.name.split(".").pop()}`
-    const audioName = `${artist} - ${song} [${baseName}].${audio?.name.split(".").pop()}`
+    const coverExtension = `${cover?.name.split(".").pop()}`
+    const audioExtension = `${audio?.name.split(".").pop()}`
+    const coverName = `${artist} - ${song} [${baseName}].${coverExtension}`
+    const audioName = `${artist} - ${song} [${baseName}].${audioExtension}`
 
     try {
-
       const coverRef = ref(storage, `cover/${coverName}`)
       const audioRef = ref(storage, `audio/${audioName}`)
+
       await uploadBytes(coverRef, cover!)
       await uploadBytes(audioRef, audio!)
 
@@ -56,8 +58,8 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
           artistName: artist
         },
         path: {
-          audio: await getDownloadURL(ref(storage, `audio/${audioName}`)),
-          cover: await getDownloadURL(ref(storage, `cover/${coverName}`))
+          audio: await getDownloadURL(audioRef),
+          cover: await getDownloadURL(coverRef)
         },
         uploadedBy: data?.user?.email,
         uploadedAt: serverTimestamp(),
@@ -117,6 +119,7 @@ export default function UploadModal({ setIsModalOpen }: UploadModal) {
               AudioRef={audioInputRef} />
             <ProgressBar
               mandatoryFields={mandatoryFields}
+              buttonRef={buttonRef}
               artist={artist}
               song={song}
               audio={audio!}

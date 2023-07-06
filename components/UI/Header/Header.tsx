@@ -13,7 +13,7 @@ export default function Header() {
   const { data } = useSession()
 
   return (
-    <div className={`sticky top-0 z-40 flex justify-end md:justify-between items-center py-4 px-6 w-full h-16 ${loading ? "bg-transparent" : "bg-blue-950"} rounded-t-lg`}>
+    <div className={`sticky top-0 z-40 flex justify-end md:justify-between items-center py-4 px-6 w-full h-16 ${loading ? "bg-[#121212]" : "bg-blue-950"} rounded-t-lg`}>
       <div className="md:flex space-x-2 hidden items-center">
         <Navigation />
         <QueryInput />

@@ -1,17 +1,16 @@
 import { ArrowUpTrayIcon } from "@heroicons/react/24/solid"
-import { useRef } from "react"
+import { RefObject } from "react"
 
 interface ProgressBarProps {
   mandatoryFields: number,
+  buttonRef: RefObject<HTMLButtonElement>,
   artist: string,
   song: string,
   audio: File,
   cover: File
 }
 
-export default function ProgressBar({ mandatoryFields, artist, audio, cover, song }: ProgressBarProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
+export default function ProgressBar({ mandatoryFields, artist, audio, cover, song, buttonRef }: ProgressBarProps) {
   return (
     <div className="flex bg-[#302944]/60 rounded-sm items-center h-20 px-4 space-x-4">
       <span>{mandatoryFields}/4</span>

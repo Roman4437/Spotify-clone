@@ -2,6 +2,7 @@
 
 import { PlayerContext } from "@/components/Providers/PlayerProvider/PlayerProvider"
 import { db } from "@/firebase"
+import { getGreeting } from "@/lib"
 import { collection, doc } from "firebase/firestore"
 import { useSession } from "next-auth/react"
 import { useContext, useEffect } from "react"
@@ -28,7 +29,7 @@ export default function Home() {
   return (
     <div className={`flex flex-col px-6 h-48 w-full ${loading ? "bg-[#121214]" : "bg-gradient-to-b from-blue-950 to-[#121214]"} pt-4`}>
       <h1 className="text-3xl font-bold mb-6">
-        Good {Intl.DateTimeFormat("eu-GB", { dayPeriod: "long" }).format(new Date()).split(" ").pop()}
+        {getGreeting()}
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pb-4">
         {songs

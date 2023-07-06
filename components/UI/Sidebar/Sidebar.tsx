@@ -56,7 +56,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside style={{ width: `${isExtended ? "50%" : "300px"}` }} className="hidden md:flex select-none flex-col pt-2 pl-2 space-y-2">
+      <aside
+        className="hidden md:flex select-none flex-col pt-2 pl-2 space-y-2"
+        style={{ width: `${isExtended ? "50%" : "300px"}` }}>
         <div className="flex flex-col px-5 py-4 space-y-6 text-[#b3b3b3] bg-[#121212] rounded-lg">
           <SidebarRow text="Home" page="/">
             <HomeIcon className="w-6" />
